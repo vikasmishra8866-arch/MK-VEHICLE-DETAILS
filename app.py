@@ -1,8 +1,11 @@
 """
-Vehicle Information Lookup Portal
----------------------------------
+Vehicle Information Lookup Portal — v2 (Advanced CSS Override)
+--------------------------------------------------------------
 A production-ready, dark-cyberpunk styled Streamlit application that performs
 vehicle registration lookups against the "mvahan" API endpoint.
+
+CSS layer has been hardened to completely override Streamlit's native widgets
+(text inputs, buttons, containers, metric cards, header, decoration bars).
 
 Author : Elite Full-Stack Python / UI-UX Engineering
 Deploy : Streamlit Community Cloud (single file `app.py`)
@@ -35,7 +38,7 @@ st.set_page_config(
 )
 
 # =============================================================================
-# 2. GLOBAL CSS  —  Ultra-premium dark cyberpunk / glassmorphism
+# 2. GLOBAL CSS  —  Ultra-premium dark cyberpunk + aggressive widget overrides
 # =============================================================================
 
 CUSTOM_CSS = """
@@ -52,7 +55,9 @@ CUSTOM_CSS = """
     --vi-border:    rgba(255,255,255,0.08);
 }
 
-/* ----------  Global canvas  ---------- */
+/* ==========================================================================
+   GLOBAL CANVAS
+   ========================================================================== */
 html, body, [class*="css"] { font-family: 'Inter', system-ui, sans-serif; }
 
 .stApp {
@@ -65,24 +70,221 @@ html, body, [class*="css"] { font-family: 'Inter', system-ui, sans-serif; }
     color: var(--vi-text);
 }
 
-/* ----------  Kill Streamlit chrome  ---------- */
-#MainMenu, footer, header { visibility: hidden !important; }
-[data-testid="stToolbar"],
-[data-testid="stDecoration"],
-[data-testid="stStatusWidget"],
-[data-testid="stHeader"] { display: none !important; }
-.stDeployButton { display: none !important; }
-#root > div:nth-child(1) > div > div > div > div > section
-    > div > div > div > div > div { gap: 0.9rem; }
+/* ==========================================================================
+   NUCLEAR STREAMLIT CHROME RESET
+   (header, hamburger, decoration bar, footer, deploy button, status widgets)
+   ========================================================================== */
+header[data-testid="stHeader"]                  { display: none !important; height: 0 !important; min-height: 0 !important; }
+[data-testid="stToolbar"]                       { display: none !important; }
+[data-testid="stDecoration"]                    { display: none !important; }
+[data-testid="stStatusWidget"]                  { display: none !important; }
+[data-testid="stAppDeployButton"],
+.stDeployButton,
+[data-testid="stDeployButton"]                  { display: none !important; }
+#MainMenu                                       { visibility: hidden !important; display: none !important; }
+footer,
+footer[data-testid="stFooter"]                  { visibility: hidden !important; display: none !important; height: 0 !important; }
 
-/* ----------  Page container  ---------- */
+/* Strip top whitespace Streamlit injects under the header */
+[data-testid="stAppViewContainer"]              { padding-top: 0 !important; }
+[data-testid="stAppViewContainer"] > .main      { padding-top: 0 !important; }
+[data-testid="stAppViewContainer"] > section,
+[data-testid="stAppViewContainer"] > section > div { padding-top: 0 !important; }
+
+/* Reclaim the page container with professional breathing room */
 .block-container {
-    padding-top: 2.2rem !important;
+    padding-top: 1.5rem !important;
     padding-bottom: 3rem !important;
-    max-width: 1180px;
+    padding-left: 2.5rem !important;
+    padding-right: 2.5rem !important;
+    max-width: 1180px !important;
 }
 
-/* ----------  Hero header  ---------- */
+/* Tighten default vertical gaps in the vertical block stack */
+[data-testid="stVerticalBlock"] > div { gap: 0.9rem !important; }
+[data-testid="stVerticalBlockBorderWrapper"] { gap: 0.9rem !important; }
+[data-testid="stHorizontalBlock"]       { gap: 1rem !important; align-items: stretch !important; }
+
+/* ==========================================================================
+   TEXT INPUT  —  deep dark field, glowing border, JetBrains Mono
+   ========================================================================== */
+[data-testid="stTextInput"]                                { width: 100% !important; }
+[data-testid="stTextInput"] > div                          { background: transparent !important; }
+[data-testid="stTextInput"] > div > div                    { background: transparent !important; }
+[data-testid="stTextInput"] div[data-baseweb="input"],
+[data-testid="stTextInput"] div[data-baseweb="base-input"] {
+    background: #0f172a !important;
+    border: 1px solid rgba(59, 130, 246, 0.40) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 0 0 1px rgba(59,130,246,0.04) inset,
+                0 0 22px rgba(59,130,246,0.08) !important;
+    transition: border-color 0.22s ease, box-shadow 0.22s ease !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+}
+[data-testid="stTextInput"] div[data-baseweb="input"]:hover {
+    border-color: rgba(59, 130, 246, 0.70) !important;
+    box-shadow: 0 0 0 1px rgba(59,130,246,0.08) inset,
+                0 0 26px rgba(59,130,246,0.16) !important;
+}
+[data-testid="stTextInput"] div[data-baseweb="input"]:focus-within {
+    border-color: rgba(59, 130, 246, 0.98) !important;
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.20),
+                0 0 32px rgba(59,130,246,0.35) !important;
+}
+[data-testid="stTextInput"] input {
+    background: transparent !important;
+    color: #ffffff !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 1.05rem !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.18em !important;
+    text-transform: uppercase !important;
+    padding: 14px 18px !important;
+    caret-color: #22c55e !important;
+    height: 52px !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+[data-testid="stTextInput"] input::placeholder {
+    color: rgba(148,163,184,0.42) !important;
+    letter-spacing: 0.16em !important;
+    text-transform: uppercase !important;
+}
+/* Kill any hint of a native label or helper text */
+[data-testid="stTextInput"] label                          { display: none !important; }
+[data-testid="stTextInput"] [data-testid="InputInstructions"] { display: none !important; }
+
+/* ==========================================================================
+   BUTTON  —  sleek gradient, hover lift, drop shadow (fully non-native)
+   ========================================================================== */
+[data-testid="stButton"],
+[data-testid="stFormSubmitButton"] {
+    width: 100% !important;
+    display: block !important;
+}
+[data-testid="stButton"] > button,
+[data-testid="stFormSubmitButton"] > button,
+.stButton > button,
+button[kind="secondary"],
+button[kind="primary"] {
+    width: 100% !important;
+    height: 52px !important;
+    min-height: 52px !important;
+    background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 45%, #22c55e 130%) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255,255,255,0.14) !important;
+    border-radius: 14px !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.82rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+    padding: 0 18px !important;
+    margin: 0 !important;
+    box-shadow: 0 10px 28px rgba(59,130,246,0.30),
+                inset 0 1px 0 rgba(255,255,255,0.18) !important;
+    transition: transform 0.20s ease,
+                box-shadow 0.20s ease,
+                border-color 0.20s ease !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    outline: none !important;
+}
+[data-testid="stButton"] > button:hover,
+[data-testid="stFormSubmitButton"] > button:hover,
+button[kind="secondary"]:hover,
+button[kind="primary"]:hover {
+    transform: translateY(-2px) !important;
+    border-color: rgba(34,197,94,0.68) !important;
+    box-shadow: 0 16px 40px rgba(59,130,246,0.50),
+                0 0 26px rgba(34,197,94,0.30),
+                inset 0 1px 0 rgba(255,255,255,0.22) !important;
+    color: #ffffff !important;
+}
+[data-testid="stButton"] > button:active,
+[data-testid="stFormSubmitButton"] > button:active,
+button[kind="secondary"]:active,
+button[kind="primary"]:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 6px 18px rgba(59,130,246,0.35) !important;
+}
+[data-testid="stButton"] > button:focus,
+[data-testid="stFormSubmitButton"] > button:focus,
+button[kind="secondary"]:focus,
+button[kind="primary"]:focus {
+    outline: none !important;
+    border-color: rgba(34,197,94,0.80) !important;
+    box-shadow: 0 0 0 3px rgba(34,197,94,0.22),
+                0 14px 34px rgba(59,130,246,0.45) !important;
+}
+/* Neutralise the nested divs Streamlit paints on top of the button */
+[data-testid="stButton"] > button > div,
+[data-testid="stButton"] > button p,
+[data-testid="stButton"] > button span {
+    background: transparent !important;
+    color: inherit !important;
+    font: inherit !important;
+    letter-spacing: inherit !important;
+    margin: 0 !important;
+}
+
+/* ==========================================================================
+   GLASS CONTAINERS  —  st.container(border=True) / bordered blocks / columns
+   ========================================================================== */
+[data-testid="stVerticalBlockBorderWrapper"] > div > div[data-testid="stVerticalBlock"] {
+    background: rgba(15, 23, 42, 0.62) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(255,255,255,0.08) !important;
+    border-radius: 22px !important;
+    padding: 4px !important;
+    box-shadow: 0 16px 42px rgba(0,0,0,0.55),
+                inset 0 1px 0 rgba(255,255,255,0.05) !important;
+}
+
+/* ==========================================================================
+   METRIC CARDS  —  glassmorphism polish
+   ========================================================================== */
+[data-testid="stMetric"] {
+    background: rgba(15, 23, 42, 0.62) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(255,255,255,0.08) !important;
+    border-radius: 20px !important;
+    padding: 20px 22px !important;
+    box-shadow: 0 14px 36px rgba(0,0,0,0.50),
+                inset 0 1px 0 rgba(255,255,255,0.05) !important;
+    transition: transform 0.25s ease, border-color 0.25s ease,
+                box-shadow 0.25s ease !important;
+}
+[data-testid="stMetric"]:hover {
+    transform: translateY(-3px) !important;
+    border-color: rgba(59,130,246,0.38) !important;
+    box-shadow: 0 20px 44px rgba(0,0,0,0.60),
+                0 0 30px rgba(59,130,246,0.16) !important;
+}
+[data-testid="stMetricLabel"] {
+    color: #94a3b8 !important;
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+}
+[data-testid="stMetricLabel"] p { font-size: inherit !important; }
+[data-testid="stMetricValue"] {
+    color: #ffffff !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.04em !important;
+}
+
+/* ==========================================================================
+   CUSTOM HERO HEADER
+   ========================================================================== */
 .vi-header {
     text-align: center;
     padding: 14px 0 26px 0;
@@ -117,7 +319,9 @@ html, body, [class*="css"] { font-family: 'Inter', system-ui, sans-serif; }
     font-weight: 400;
 }
 
-/* ----------  Glass panel (search zone)  ---------- */
+/* ==========================================================================
+   GLASS PANEL (search zone)
+   ========================================================================== */
 .vi-panel {
     background: rgba(15, 23, 42, 0.62);
     backdrop-filter: blur(20px);
@@ -138,61 +342,9 @@ html, body, [class*="css"] { font-family: 'Inter', system-ui, sans-serif; }
     margin-bottom: 14px;
 }
 
-/* ----------  Text input  ---------- */
-div[data-testid="stTextInput"] div[data-baseweb="input"] {
-    background: rgba(6, 9, 17, 0.85) !important;
-    border: 1px solid rgba(255,255,255,0.10) !important;
-    border-radius: 14px !important;
-    transition: all 0.22s ease;
-}
-div[data-testid="stTextInput"] div[data-baseweb="input"]:focus-within {
-    border-color: var(--vi-blue) !important;
-    box-shadow: 0 0 0 3px rgba(59,130,246,0.18),
-                0 0 24px rgba(59,130,246,0.20) !important;
-}
-div[data-testid="stTextInput"] input {
-    background: transparent !important;
-    color: var(--vi-text) !important;
-    font-family: 'JetBrains Mono', monospace !important;
-    font-size: 1.02rem !important;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    padding: 13px 16px !important;
-    caret-color: var(--vi-emerald);
-}
-div[data-testid="stTextInput"] input::placeholder {
-    color: rgba(148,163,184,0.45) !important;
-    letter-spacing: 0.14em;
-}
-div[data-testid="stTextInput"] label { display: none !important; }
-
-/* ----------  Primary button  ---------- */
-div[data-testid="stButton"] > button,
-.stButton > button {
-    width: 100%;
-    height: 52px;
-    background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 45%, #22c55e 130%);
-    color: #ffffff;
-    border: 1px solid rgba(255,255,255,0.14);
-    border-radius: 14px;
-    font-size: 0.82rem;
-    font-weight: 700;
-    letter-spacing: 0.10em;
-    text-transform: uppercase;
-    box-shadow: 0 10px 28px rgba(59,130,246,0.30);
-    transition: transform 0.20s ease, box-shadow 0.20s ease, border-color 0.20s ease;
-}
-div[data-testid="stButton"] > button:hover,
-.stButton > button:hover {
-    transform: translateY(-2px);
-    border-color: rgba(34,197,94,0.65);
-    box-shadow: 0 16px 36px rgba(59,130,246,0.45);
-    color: #ffffff;
-}
-div[data-testid="stButton"] > button:active,
-.stButton > button:active { transform: translateY(0); }
-
-/* ----------  Result cards  ---------- */
+/* ==========================================================================
+   RESULT CARDS
+   ========================================================================== */
 .vi-card {
     background: rgba(15, 23, 42, 0.70);
     backdrop-filter: blur(18px);
@@ -203,7 +355,8 @@ div[data-testid="stButton"] > button:active,
     margin-bottom: 18px;
     box-shadow: 0 12px 34px rgba(0,0,0,0.48),
                 inset 0 1px 0 rgba(255,255,255,0.04);
-    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    transition: transform 0.25s ease, border-color 0.25s ease,
+                box-shadow 0.25s ease;
 }
 .vi-card:hover {
     transform: translateY(-3px);
@@ -231,7 +384,9 @@ div[data-testid="stButton"] > button:active,
     color: #93c5fd;
 }
 
-/* ----------  Key / value rows  ---------- */
+/* ==========================================================================
+   KEY / VALUE ROWS
+   ========================================================================== */
 .vi-row {
     display: flex;
     justify-content: space-between;
@@ -270,10 +425,14 @@ div[data-testid="stButton"] > button:active,
     padding: 10px 0 16px 0;
 }
 
-/* ----------  Hero result banner  ---------- */
+/* ==========================================================================
+   HERO RESULT BANNER
+   ========================================================================== */
 .vi-hero {
     background:
-        linear-gradient(135deg, rgba(59,130,246,0.16) 0%, rgba(15,23,42,0.72) 42%, rgba(34,197,94,0.13) 100%);
+        linear-gradient(135deg, rgba(59,130,246,0.16) 0%,
+                                rgba(15,23,42,0.72) 42%,
+                                rgba(34,197,94,0.13) 100%);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(59,130,246,0.28);
@@ -318,7 +477,9 @@ div[data-testid="stButton"] > button:active,
     justify-content: flex-end;
 }
 
-/* ----------  Badges  ---------- */
+/* ==========================================================================
+   BADGES
+   ========================================================================== */
 .vi-badge {
     display: inline-flex;
     align-items: center;
@@ -347,7 +508,9 @@ div[data-testid="stButton"] > button:active,
     color: #cbd5e1;
 }
 
-/* ----------  Alerts  ---------- */
+/* ==========================================================================
+   ALERTS
+   ========================================================================== */
 .vi-alert {
     display: flex;
     align-items: center;
@@ -375,7 +538,9 @@ div[data-testid="stButton"] > button:active,
     50%      { box-shadow: 0 0 26px rgba(239,68,68,0.30); }
 }
 
-/* ----------  Meta / credits strip  ---------- */
+/* ==========================================================================
+   META / CREDITS STRIP
+   ========================================================================== */
 .vi-meta {
     margin-top: 26px;
     padding: 16px 20px;
@@ -393,7 +558,9 @@ div[data-testid="stButton"] > button:active,
 }
 .vi-meta b { color: #7dd3fc; font-weight: 700; }
 
-/* ----------  Spinner  ---------- */
+/* ==========================================================================
+   SPINNER
+   ========================================================================== */
 [data-testid="stSpinner"] > div { border-top-color: var(--vi-emerald) !important; }
 [data-testid="stSpinner"] p {
     font-family: 'JetBrains Mono', monospace !important;
@@ -403,7 +570,9 @@ div[data-testid="stButton"] > button:active,
     text-transform: uppercase;
 }
 
-/* ----------  Footer  ---------- */
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
 .vi-footer {
     text-align: center;
     margin-top: 34px;
@@ -503,7 +672,8 @@ def render_alert(message: str, kind: str = "error") -> None:
     """Render a styled alert box."""
     icon = "⚠️" if kind == "error" else "ℹ️"
     st.markdown(
-        f'<div class="vi-alert {kind}"><span>{icon}</span><span>{html.escape(message)}</span></div>',
+        f'<div class="vi-alert {kind}"><span>{icon}</span>'
+        f"<span>{html.escape(message)}</span></div>",
         unsafe_allow_html=True,
     )
 
@@ -650,13 +820,25 @@ if data:
 
     badge_html = []
     if is_meaningful(vehicle.get("fuel")):
-        badge_html.append(f'<span class="vi-badge blue">{html.escape(clean_value(vehicle.get("fuel")))}</span>')
+        badge_html.append(
+            f'<span class="vi-badge blue">'
+            f'{html.escape(clean_value(vehicle.get("fuel")))}</span>'
+        )
     if is_meaningful(vehicle.get("vehicle_class")):
-        badge_html.append(f'<span class="vi-badge green">{html.escape(clean_value(vehicle.get("vehicle_class")))}</span>')
+        badge_html.append(
+            f'<span class="vi-badge green">'
+            f'{html.escape(clean_value(vehicle.get("vehicle_class")))}</span>'
+        )
     if is_meaningful(vehicle.get("vehicle_category")):
-        badge_html.append(f'<span class="vi-badge grey">{html.escape(clean_value(vehicle.get("vehicle_category")))}</span>')
+        badge_html.append(
+            f'<span class="vi-badge grey">'
+            f'{html.escape(clean_value(vehicle.get("vehicle_category")))}</span>'
+        )
     if is_meaningful(vehicle.get("body_type")):
-        badge_html.append(f'<span class="vi-badge grey">{html.escape(clean_value(vehicle.get("body_type")))}</span>')
+        badge_html.append(
+            f'<span class="vi-badge grey">'
+            f'{html.escape(clean_value(vehicle.get("body_type")))}</span>'
+        )
 
     st.markdown(
         f"""
@@ -677,13 +859,13 @@ if data:
         "👤",
         "Owner Details",
         [
-            ("Owner Name",       vehicle.get("owner"),            False),
-            ("Father's Name",    vehicle.get("father_name"),      False),
-            ("Mobile",           data.get("mobile"),              True),
-            ("Vehicle Class",    vehicle.get("vehicle_class"),    False),
-            ("Category",         vehicle.get("vehicle_category"), False),
-            ("Financier",        vehicle.get("financier"),        False),
-            ("Registered RTO",   vehicle.get("rto"),              False),
+            ("Owner Name",        vehicle.get("owner"),             False),
+            ("Father's Name",     vehicle.get("father_name"),       False),
+            ("Mobile",            data.get("mobile"),               True),
+            ("Vehicle Class",     vehicle.get("vehicle_class"),     False),
+            ("Category",          vehicle.get("vehicle_category"),  False),
+            ("Financier",         vehicle.get("financier"),         False),
+            ("Registered RTO",    vehicle.get("rto"),               False),
             ("Registration Date", vehicle.get("registration_date"), False),
         ],
     )
@@ -693,20 +875,20 @@ if data:
         "⚙️",
         "Technical Specifications",
         [
-            ("Make",              vehicle.get("make"),              False),
-            ("Model",             vehicle.get("model"),             False),
-            ("Variant",           vehicle.get("variant"),           False),
-            ("Fuel Type",         vehicle.get("fuel"),              False),
-            ("Chassis Number",    vehicle.get("chassis"),           True),
-            ("Engine Number",     vehicle.get("engine"),            True),
-            ("Colour",            vehicle.get("color"),             False),
-            ("Body Type",         vehicle.get("body_type"),         False),
-            ("Cubic Capacity",    vehicle.get("cubic_capacity"),    False),
-            ("Seating Capacity",  vehicle.get("seating_capacity"),  False),
-            ("Emission Norms",    vehicle.get("norms"),             False),
-            ("Fitness Upto",      vehicle.get("fit_upto"),          False),
-            ("Tax Upto",          vehicle.get("tax_upto"),          False),
-            ("Vehicle Status",    vehicle.get("status"),            False),
+            ("Make",             vehicle.get("make"),             False),
+            ("Model",            vehicle.get("model"),            False),
+            ("Variant",          vehicle.get("variant"),          False),
+            ("Fuel Type",        vehicle.get("fuel"),             False),
+            ("Chassis Number",   vehicle.get("chassis"),          True),
+            ("Engine Number",    vehicle.get("engine"),           True),
+            ("Colour",           vehicle.get("color"),            False),
+            ("Body Type",        vehicle.get("body_type"),        False),
+            ("Cubic Capacity",   vehicle.get("cubic_capacity"),   False),
+            ("Seating Capacity", vehicle.get("seating_capacity"), False),
+            ("Emission Norms",   vehicle.get("norms"),            False),
+            ("Fitness Upto",     vehicle.get("fit_upto"),         False),
+            ("Tax Upto",         vehicle.get("tax_upto"),         False),
+            ("Vehicle Status",   vehicle.get("status"),           False),
         ],
     )
 
@@ -715,12 +897,12 @@ if data:
         "🛡️",
         "Insurance & Compliance",
         [
-            ("Insurance Company",  vehicle.get("insurance_company"),   False),
-            ("Policy Number",      vehicle.get("insurance_policy_no"), True),
-            ("Insurance Valid Upto", vehicle.get("insurance_upto"),    False),
-            ("PUC Certificate No", vehicle.get("puc_no"),              True),
-            ("PUC Valid Upto",     vehicle.get("puc_upto"),            False),
-            ("Status As On",       vehicle.get("status_as_on"),        False),
+            ("Insurance Company",    vehicle.get("insurance_company"),   False),
+            ("Policy Number",        vehicle.get("insurance_policy_no"), True),
+            ("Insurance Valid Upto", vehicle.get("insurance_upto"),      False),
+            ("PUC Certificate No",   vehicle.get("puc_no"),              True),
+            ("PUC Valid Upto",       vehicle.get("puc_upto"),            False),
+            ("Status As On",         vehicle.get("status_as_on"),        False),
         ],
     )
 
@@ -729,10 +911,10 @@ if data:
         "📍",
         "Registered Address",
         [
-            ("Full Address", vehicle.get("address"), False),
-            ("City / District", vehicle.get("city"), False),
-            ("RTO Jurisdiction", vehicle.get("rto"), False),
-            ("Data Source", vehicle.get("source"), False),
+            ("Full Address",     vehicle.get("address"), False),
+            ("City / District",  vehicle.get("city"),    False),
+            ("RTO Jurisdiction", vehicle.get("rto"),     False),
+            ("Data Source",      vehicle.get("source"),  False),
         ],
     )
 
@@ -748,19 +930,31 @@ if data:
     # ---------------------------------------------------------------- META BAR
     meta_bits = []
     if is_meaningful(data.get("runtime")):
-        meta_bits.append(f"Runtime <b>{html.escape(clean_value(data.get('runtime')))}</b>")
+        meta_bits.append(
+            f"Runtime <b>{html.escape(clean_value(data.get('runtime')))}</b>"
+        )
     if is_meaningful(data.get("timestamp")):
-        meta_bits.append(f"Fetched <b>{html.escape(clean_value(data.get('timestamp')))}</b>")
+        meta_bits.append(
+            f"Fetched <b>{html.escape(clean_value(data.get('timestamp')))}</b>"
+        )
     if is_meaningful(data.get("key_expiry")):
-        meta_bits.append(f"Key Expiry <b>{html.escape(clean_value(data.get('key_expiry')))}</b>")
+        meta_bits.append(
+            f"Key Expiry <b>{html.escape(clean_value(data.get('key_expiry')))}</b>"
+        )
     if is_meaningful(data.get("credits")):
-        meta_bits.append(f"Credits <b>{html.escape(clean_value(data.get('credits')))}</b>")
+        meta_bits.append(
+            f"Credits <b>{html.escape(clean_value(data.get('credits')))}</b>"
+        )
     if is_meaningful(data.get("developer")):
-        meta_bits.append(f"Developer <b>{html.escape(clean_value(data.get('developer')))}</b>")
+        meta_bits.append(
+            f"Developer <b>{html.escape(clean_value(data.get('developer')))}</b>"
+        )
 
     if meta_bits:
         st.markdown(
-            f'<div class="vi-meta">{"".join(f"<span>{m}</span>" for m in meta_bits)}</div>',
+            f'<div class="vi-meta">'
+            f'{"".join(f"<span>{m}</span>" for m in meta_bits)}'
+            f"</div>",
             unsafe_allow_html=True,
         )
 
@@ -770,7 +964,8 @@ if data:
 
 elif not st.session_state.error:
     render_alert(
-        "Enter a registration number above and hit “Decode” to retrieve the full vehicle profile.",
+        "Enter a registration number above and hit “Decode” to retrieve the "
+        "full vehicle profile.",
         "info",
     )
 
